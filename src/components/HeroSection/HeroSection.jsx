@@ -1,15 +1,16 @@
 import React from "react";
 import Navbar from "../Navbar/Navbar";
 import background from "../../assets/hero-section-image.png";
+import PriceList from "../PriceList/PriceList";
 
-const HeroSection = () => {
+const HeroSection = ({ menuItems }) => {
   return (
     <div>
       <Navbar />
       <div className="relative">
         <img
           src={background}
-          alt=""
+          alt="Hero"
           className="w-full h-64 sm:h-96 object-cover"
         />
         <div className="absolute bottom-12 sm:bottom-0 sm:top-28 left-1/2 transform -translate-x-1/2 bg-[#313131] w-[90%] sm:w-[50%] py-4 sm:py-8 px-2 sm:px-4 rounded-lg">
@@ -25,6 +26,7 @@ const HeroSection = () => {
           </p>
         </div>
       </div>
+      <PriceList items={menuItems} />
     </div>
   );
 };
