@@ -3,7 +3,7 @@ import Navbar from "../Navbar/Navbar";
 import background from "../../assets/hero-section-image.png";
 import PriceList from "../PriceList/PriceList";
 
-const HeroSection = ({ menuItems }) => {
+const HeroSection = ({ menuItems, onAddToCart }) => {
   return (
     <div>
       <Navbar />
@@ -26,7 +26,7 @@ const HeroSection = ({ menuItems }) => {
           </p>
         </div>
       </div>
-      <PriceList items={menuItems} />
+      <PriceList items={menuItems} onAddToCart={onAddToCart} />
     </div>
   );
 };

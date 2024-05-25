@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import HeroSection from './components/HeroSection/HeroSection';
 
 const App = () => {
@@ -9,9 +9,23 @@ const App = () => {
     { name: 'Green Bowl', description: 'Healthy and green', price: '2.99' },
   ];
 
+  const [cart, setCart] = useState([]);
+
+  const handleAddToCart = (item, quantity) => {
+    console.log(`${quantity} x ${item.name} added to cart!`);
+    // Here you can add functionality to update the cart state
+  };
+
   return (
     <div>
-      <HeroSection menuItems={menuItems} />
+      <HeroSection menuItems={menuItems} onAddToCart={handleAddToCart} />
+      {/* Optionally, you can display the cart items here */}
+      <div>
+        <h2>Cart Items:</h2>
+        {cart.map((item, index) => (
+          <p key={index}>{item.name} - ${item.price}</p>
+        ))}
+      </div>
     </div>
   );
 };

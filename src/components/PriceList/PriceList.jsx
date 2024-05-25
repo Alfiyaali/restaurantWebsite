@@ -1,6 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const PriceList = ({ items = [] }) => {
+const PriceList = ({ items = [], onAddToCart }) => {
+  const [quantities, setQuantities] = useState({});
+
+  const handleQuantityChange = (itemName, quantity) => {
+    setQuantities({
+      ...quantities,
+      [itemName]: quantity,
+    });
+  };
+
   return (
     <div className='bg-[#373737] py-8'>
       <div className='bg-white w-[90%] sm:w-[75%] md:w-[50%] rounded-lg mx-auto py-2 shadow-md'>
@@ -10,9 +19,28 @@ const PriceList = ({ items = [] }) => {
               key={index}
               className={`border-b-2 border-gray-100 py-2 mx-4 sm:mx-8 my-4 sm:my-8 ${index === items.length - 1 ? 'border-b-0' : ''}`}
             >
-              <h1 className='text-lg sm:text-xl font-semibold'>{item.name}</h1>
-              <p className='text-sm sm:text-base'>{item.description}</p>
-              <span className='block text-sm sm:text-base font-bold'>${item.price}</span>
+              <div className="flex justify-between items-center">
+                <div>
+                  <h1 className='text-lg sm:text-xl font-semibold'>{item.name}</h1>
+                  <p className='text-sm sm:text-base'>{item.description}</p>
+                  <span className='block text-sm sm:text-base font-bold'>${item.price}</span>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    type="number"
+                    min="1"
+                    value={quantities[item.name] || 1}
+                    onChange={(e) => handleQuantityChange(item.name, e.target.value)}
+                    className='w-16 p-1 border border-gray-300 rounded mr-2'
+                  />
+                  <button
+                    className='bg-[#771f08] text-white px-4 py-2 rounded-full hover:bg-[#5d1607] transition'
+                    onClick={() => onAddToCart(item, quantities[item.name] || 1)}
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
             </div>
           ))
         ) : (
