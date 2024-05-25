@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
 const PriceList = ({ items = [], onAddToCart }) => {
+  const [selectedItem, setSelectedItem] = useState(null);
+
   const [quantities, setQuantities] = useState({});
 
   const handleQuantityChange = (itemName, quantity) => {
@@ -8,6 +10,10 @@ const PriceList = ({ items = [], onAddToCart }) => {
       ...quantities,
       [itemName]: quantity,
     });
+  };
+
+  const handleAddButtonClick = (item) => {
+    setSelectedItem(item);
   };
 
   return (
@@ -29,13 +35,13 @@ const PriceList = ({ items = [], onAddToCart }) => {
                   <input
                     type="number"
                     min="1"
-                    value={quantities[item.name] || 1}
-                    onChange={(e) => handleQuantityChange(item.name, e.target.value)}
+                    value={1}
+                    onChange={() => handleQuantityChange(item.name, 1)}
                     className='w-16 p-1 border border-gray-300 rounded mr-2'
                   />
                   <button
-                    className='bg-[#771f08] text-white px-4 py-2 rounded-full hover:bg-[#5d1607] transition'
-                    onClick={() => onAddToCart(item, quantities[item.name] || 1)}
+                    className='bg-[#771f08] text-white px-4 py-2 rounded-full hover:bg-[#5d1607] transition mr-2'
+                    onClick={() => handleAddButtonClick(item)}
                   >
                     Add
                   </button>
@@ -47,6 +53,26 @@ const PriceList = ({ items = [], onAddToCart }) => {
           <p className='text-center text-white'>No items available</p>
         )}
       </div>
+      {/* Modal Card */}
+      {selectedItem && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75">
+          <div className="bg-white p-6 rounded-lg">
+            <h2 className="text-2xl font-bold mb-4">{selectedItem.name}</h2>
+            <p className="text-sm mb-2">{selectedItem.description}</p>
+            <p className="text-lg font-bold">${selectedItem.price}</p>
+            <button
+              className="text-[#771f08] bg-white border border-[#771f08] px-6 mx-2 py-2 rounded-full mt-4"
+            >
+              Close
+            </button>
+            <button
+              className="bg-[#771f08] text-white px-6 py-2 rounded-full mt-4"
+            >
+              Order
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
