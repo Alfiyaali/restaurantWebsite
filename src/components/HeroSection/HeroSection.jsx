@@ -1,12 +1,10 @@
 import React from "react";
-import Navbar from "../Navbar/Navbar";
 import background from "../../assets/hero-section-image.png";
 import PriceList from "../PriceList/PriceList";
 
 const HeroSection = ({ menuItems, onAddToCart }) => {
   return (
     <div>
-      <Navbar />
       <div className="relative">
         <img
           src={background}

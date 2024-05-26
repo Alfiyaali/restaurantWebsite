@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import CardModal from "../CardModal/CardModal";
 
 const PriceList = ({ items = [], onAddToCart }) => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [quantities, setQuantities] = useState({});
 
-  const handleAddToCartClick = (item) => {
-    setSelectedItem(item);
-    setModalOpen(true);
+  const handleQuantityChange = (name, quantity) => {
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [name]: quantity,
+    }));
   };
 
-  const handleCloseModal = () => {
-    setModalOpen(false);
+  const handleAddToCartClick = (item) => {
+    const quantity = quantities[item.name] || 1; // Default to 1 if not set
+    onAddToCart(item, quantity);
   };
 
   return (
@@ -41,6 +42,7 @@ const PriceList = ({ items = [], onAddToCart }) => {
                     min="1"
                     defaultValue="1"
                     className="w-16 p-1 border border-gray-300 rounded mr-2"
+                    onChange={(e) => handleQuantityChange(item.name, Number(e.target.value))}
                   />
                   <button
                     className="bg-[#771f08] text-white px-4 py-2 rounded-full hover:bg-[#5d1607] transition"
@@ -56,11 +58,6 @@ const PriceList = ({ items = [], onAddToCart }) => {
           <p className="text-center text-white">No items available</p>
         )}
       </div>
-      <CardModal
-        isOpen={modalOpen}
-        onClose={handleCloseModal}
-        item={selectedItem}
-      />
     </div>
   );
 };

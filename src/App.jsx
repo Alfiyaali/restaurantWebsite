@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import HeroSection from './components/HeroSection/HeroSection';
+import HeroSection from './components/HeroSection/HeroSection'
+import Navbar from './components/Navbar/Navbar';
+import CartModal from './components/CardModal/CardModal';
 
 const App = () => {
   const menuItems = [
@@ -10,22 +12,37 @@ const App = () => {
   ];
 
   const [cart, setCart] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const handleAddToCart = (item, quantity) => {
+    setCart((prevCart) => {
+      const existingItemIndex = prevCart.findIndex((cartItem) => cartItem.name === item.name);
+      if (existingItemIndex > -1) {
+        const updatedCart = [...prevCart];
+        updatedCart[existingItemIndex].quantity += quantity;
+        return updatedCart;
+      } else {
+        return [...prevCart, { ...item, quantity }];
+      }
+    });
     console.log(`${quantity} x ${item.name} added to cart!`);
-    // Here you can add functionality to update the cart state
+  };
+
+  const cartItemCount = cart.reduce((count, item) => count + item.quantity, 0);
+
+  const handleCartClick = () => {
+    setIsCartOpen(true);
+  };
+
+  const handleCloseCart = () => {
+    setIsCartOpen(false);
   };
 
   return (
     <div>
+      <Navbar cartItemCount={cartItemCount} onCartClick={handleCartClick} />
       <HeroSection menuItems={menuItems} onAddToCart={handleAddToCart} />
-      {/* Optionally, you can display the cart items here */}
-      <div>
-        <h2>Cart Items:</h2>
-        {cart.map((item, index) => (
-          <p key={index}>{item.name} - ${item.price}</p>
-        ))}
-      </div>
+      {isCartOpen && <CartModal cartItems={cart} onClose={handleCloseCart} />}
     </div>
   );
 };

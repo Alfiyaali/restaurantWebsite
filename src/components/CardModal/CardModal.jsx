@@ -1,31 +1,40 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-const CardModal = ({ isOpen, onClose, item }) => {
-  if (!isOpen) return null;
-
+const CartModal = ({ cartItems, onClose }) => {
   return ReactDOM.createPortal(
-    <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-8 rounded-lg">
-        <h2 className="text-xl font-semibold">{item.name}</h2>
-        <p className="text-gray-600">{item.description}</p>
-        <p className="text-gray-800 font-bold mt-2">${item.price}</p>
-        <button
-          className="mt-4 text-[#771f08] bg-white border border[#771f08] rounded-full mx-2 px-6 py-2 px-4"
-          onClick={onClose}
-        >
-          Close
-        </button>
-        <button
-          className="mt-4 bg-[#771f08] text-white border border[#771f08] rounded-full mx-2 px-6 py-2 px-4"
-          onClick={onClose}
-        >
-          Order
-        </button>
+    <div className="fixed inset-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+      <div className="bg-white p-8 rounded-lg w-11/12 sm:w-80 max-w-lg mx-auto border-4 border-black">
+        <h2 className="text-xl font-semibold mb-4">Your Cart</h2>
+        {cartItems.length > 0 ? (
+          cartItems.map((item, index) => (
+            <div key={index} className="mb-4">
+              <p>
+                {item.quantity} x {item.name} - ${item.price}
+              </p>
+            </div>
+          ))
+        ) : (
+          <p>Your cart is empty.</p>
+        )}
+        <div className="flex justify-end mt-4">
+          <button
+            className="text-[#771f08] border-2 border-[#771f08] bg-white px-6 mx-2 py-2 rounded-full"
+            onClick={onClose}
+          >
+            Close
+          </button>
+          <button
+            className="bg-[#771f08] text-white px-6 py-2 rounded-full"
+            onClick={onClose}
+          >
+            Order
+          </button>
+        </div>
       </div>
     </div>,
     document.getElementById("modal-root")
   );
 };
 
-export default CardModal;
+export default CartModal;
