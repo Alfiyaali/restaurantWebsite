@@ -1,7 +1,11 @@
 import React from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
+import { useCart } from '../store/CartContext';
+
 
 const Navbar = ({ cartItemCount, onCartClick }) => {
+  const { cart } = useCart();
+  const cartItemCount = cart.reduce((count, item) => count + item.quantity, 0);
   return (
     <div>
       <nav className="bg-[#771f08] w-full h-16 flex justify-between">

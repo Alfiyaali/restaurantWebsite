@@ -1,8 +1,11 @@
 import React from "react";
 import background from "../../assets/hero-section-image.png";
 import PriceList from "../PriceList/PriceList";
+import { useCart } from "../store/CartContext";
 
 const HeroSection = ({ menuItems, onAddToCart }) => {
+  const { addToCart } = useCart();
+
   return (
     <div>
       <div className="relative">

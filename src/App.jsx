@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import HeroSection from './components/HeroSection/HeroSection'
+import HeroSection from './components/HeroSection/HeroSection';
 import Navbar from './components/Navbar/Navbar';
 import CartModal from './components/CardModal/CardModal';
+import { CartProvider } from './components/store/CartContext';
+
 
 const App = () => {
   const menuItems = [
@@ -39,11 +41,13 @@ const App = () => {
   };
 
   return (
+    <CartProvider>
     <div>
       <Navbar cartItemCount={cartItemCount} onCartClick={handleCartClick} />
       <HeroSection menuItems={menuItems} onAddToCart={handleAddToCart} />
       {isCartOpen && <CartModal cartItems={cart} onClose={handleCloseCart} />}
     </div>
+    </CartProvider>
   );
 };
 

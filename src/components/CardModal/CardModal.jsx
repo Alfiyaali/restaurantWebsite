@@ -1,7 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { useCart } from "../store/CartContext";
 
 const CartModal = ({ cartItems, onClose }) => {
+  const { cart } = useCart();
+
   return ReactDOM.createPortal(
     <div className="fixed inset-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
       <div className="bg-white p-8 rounded-lg w-11/12 sm:w-80 max-w-lg mx-auto border-4 border-black">
