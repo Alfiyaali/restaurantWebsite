@@ -6,13 +6,20 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
   const addToCart = (item, quantity) => {
-    // Implement your logic to add items to the cart
-    // This function will be accessible to all components through the context
+    setCart((prevCart) => {
+      const existingItemIndex = prevCart.findIndex((cartItem) => cartItem.name === item.name);
+      if (existingItemIndex > -1) {
+        const updatedCart = [...prevCart];
+        updatedCart[existingItemIndex].quantity += quantity;
+        return updatedCart;
+      } else {
+        return [...prevCart, { ...item, quantity }];
+      }
+    });
   };
 
   const removeFromCart = (itemName) => {
     // Implement your logic to remove items from the cart
-    // This function will be accessible to all components through the context
   };
 
   return (
